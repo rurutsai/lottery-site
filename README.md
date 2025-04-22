@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>抽獎籤</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fbe8e8, #fff);
+      font-family: "Noto Sans TC", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #b80000;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+    .lottery-box {
+      position: relative;
+      width: 180px;
+      height: 240px;
+      background: linear-gradient(145deg, #fff8f0, #ffe5e5);
+      border: 3px solid #b80000;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(184, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .stick {
+      position: absolute;
+      bottom: -200px;
+      width: 110px;
+      height: 160px;
+      background: #fff6e5;
+      border: 3px solid #b80000;
+      border-radius: 10px;
+      font-size: 1.5em;
+      color: #b80000;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: bottom 0.6s ease-out;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .show {
+      bottom: 40px !important;
+    }
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      font-size: 1.2em;
+      background: #b80000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px #800000;
+      transition: all 0.2s;
+    }
+    button:active {
+      box-shadow: 0 2px #800000;
+      transform: translateY(2px);
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: gold;
+      border-radius: 50%;
+      animation: fall 1.2s linear forwards;
+      z-index: 1000;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(300px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>紅包金額</h1>
+  <div class="lottery-box">
+    <div class="stick" id="stick">？</div>
+  </div>
+  <button onclick="drawStick()">抽籤</button>
+
+  <script>
+    const prizes = ["$88", "$100", "$188", "$200", "$288"];
+    const stick = document.getElementById("stick");
+
+    function drawStick() {
+      const prize = prizes[Math.floor(Math.random() * prizes.length)];
+      stick.textContent = prize;
+      stick.classList.remove("show");
+
+      setTimeout(() => {
+        stick.classList.add("show");
+        shootConfetti();
+      }, 100);
+    }
+
+    function shootConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = `${Math.random() * window.innerWidth}px`;
+        confetti.style.top = `-${Math.random() * 100}px`;
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        confetti.style.animationDuration = `${1 + Math.random()}s`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+  </script>
+</body>
+</html>
